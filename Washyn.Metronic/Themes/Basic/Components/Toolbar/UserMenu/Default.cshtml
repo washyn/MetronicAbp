@@ -1,0 +1,57 @@
+﻿@using Localization.Resources.AbpUi
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.MultiTenancy
+@using Volo.Abp.UI.Navigation
+@using Volo.Abp.Users
+@inject ICurrentUser CurrentUser
+@inject ICurrentTenant CurrentTenant
+@inject IHtmlLocalizer<AbpUiResource> L
+@model ApplicationMenu
+@* TODO: improve add icon for dropdown *@
+@* https://preview.keenthemes.com/html/metronic/docs/general/menu/advanced *@
+
+<div class="app-navbar-item ms-1 ms-md-3">
+    <!--begin::Menu toggle-->
+    <a href="#" class="btn btn-sm btn-custom btn-active-light btn-active-color-primary  px-3" data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+        @if (CurrentUser.TenantId != null)
+        {
+            <small><i>@CurrentTenant.Name</i>\</small>@CurrentUser.UserName
+        }
+        else
+        {
+            @CurrentUser.UserName
+        }
+    </a>
+    <!--begin::Menu toggle-->
+    @if (Model.Items.Any())
+    {
+        <!--begin::Menu-->
+        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-title-gray-700 menu-active-bg menu-state-color fw-semibold py-4 fs-base w-200px" data-kt-menu="true">
+            @foreach (var menuItem in Model.Items)
+            {
+                var elementId = string.IsNullOrEmpty(menuItem.ElementId) ? string.Empty : $"id=\"{menuItem.ElementId}\"";
+                var cssClass = string.IsNullOrEmpty(menuItem.CssClass) ? string.Empty : menuItem.CssClass;
+                var disabled = menuItem.IsDisabled ? "disabled" : string.Empty;
+                var url = string.IsNullOrEmpty(menuItem.Url) ? "#" : Url.Content(menuItem.Url);
+                <!--begin::Menu item-->
+                <div class="menu-item px-3 my-0">
+                    <a href="@url" target="@menuItem.Target" @Html.Raw(elementId) class="@cssClass @disabled menu-link px-3 py-2">
+                        @if (menuItem.Icon != null)
+                        {
+                            <span class="menu-icon" data-kt-element="icon">
+                                <i class="@menuItem.Icon">
+                                    <span class="path1"></span>
+                                </i>
+                            </span>
+                        }
+                        <span class="menu-title">
+                            @menuItem.DisplayName
+                        </span>
+                    </a>
+                </div>
+                <!--end::Menu item-->
+            }
+        </div>
+        <!--end::Menu-->
+    }
+</div>

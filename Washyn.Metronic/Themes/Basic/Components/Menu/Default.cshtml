@@ -1,0 +1,81 @@
+﻿@using Volo.Abp.UI.Navigation
+@model ApplicationMenu
+
+
+<!--begin::Menu wrapper-->
+<div class="
+        app-header-menu
+        app-header-mobile-drawer
+        align-items-stretch
+    "
+     data-kt-drawer="true"
+     data-kt-drawer-name="app-header-menu"
+     data-kt-drawer-activate="{default: true, lg: false}"
+     data-kt-drawer-overlay="true"
+     data-kt-drawer-width="250px"
+     data-kt-drawer-direction="end"
+     data-kt-drawer-toggle="#kt_app_header_menu_toggle"
+     data-kt-swapper="true"
+     data-kt-swapper-mode="{default: 'append', lg: 'prepend'}"
+     data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
+<!--begin::Menu-->
+<div class="
+            menu
+            menu-rounded
+            menu-column
+            menu-lg-row
+            my-5
+            my-lg-0
+            align-items-stretch
+            fw-semibold
+            px-2 px-lg-0
+        "
+     id="kt_app_header_menu"
+     data-kt-menu="true">
+
+@foreach (var menuItem in Model.Items)
+{
+    var elementId = string.IsNullOrEmpty(menuItem.ElementId) ? string.Empty : $"id=\"{menuItem.ElementId}\"";
+    var cssClass = string.IsNullOrEmpty(menuItem.CssClass) ? string.Empty : menuItem.CssClass;
+    var disabled = menuItem.IsDisabled ? "disabled" : string.Empty;
+    var url = string.IsNullOrEmpty(menuItem.Url) ? "#" : Url.IsLocalUrl(menuItem.Url) ? Url.Content(menuItem.Url.EnsureStartsWith('~')) : menuItem.Url;
+    if (menuItem.IsLeaf)
+    {
+        if (menuItem.Url != null)
+        {
+            <div @elementId class="@cssClass @disabled menu-item me-0 me-lg-2">
+                <!--begin:Menu link-->
+                <a href="@url" target="@menuItem.Target" class="menu-link">
+                    <span class="menu-title">@menuItem.DisplayName</span>
+                    <span class="menu-arrow d-lg-none"></span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+        }
+    }
+    else
+    {
+        
+        <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+            <span class="menu-title">@menuItem.DisplayName</span>
+            <span class="menu-arrow d-lg-none"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px">
+            @foreach (var childMenuItem in menuItem.Items)
+            {
+                @await Html.PartialAsync("~/Themes/Basic/Components/Menu/_MenuItem.cshtml", childMenuItem)
+            }
+        </div>
+        <!--end:Menu sub-->
+        </div>
+    }
+}
+
+</div>
+<!--end::Menu-->
+</div>
+<!--end::Menu wrapper-->

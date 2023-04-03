@@ -1,0 +1,9 @@
+﻿@using Localization.Resources.AbpUi
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<AbpUiResource> L
+
+<div class="app-navbar-item ms-1 ms-md-3">
+    <a href="~/Account/Login" class="btn btn-sm btn-custom btn-active-light btn-active-color-primary  px-3">
+        @L["Login"]
+    </a>
+</div>

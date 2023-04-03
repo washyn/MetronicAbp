@@ -1,0 +1,1 @@
+dotnet run --project Acme.Samples --migrate-database

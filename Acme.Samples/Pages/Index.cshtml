@@ -1,0 +1,25 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Card
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.Identity.Localization
+
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<IdentityResource> L
+@{
+    PageLayout.Content.Title = "Articulos";
+    PageLayout.Content.BreadCrumb.Add("Articulos");
+    PageLayout.Content.MenuItemName = "BillingMenus.Categoria";
+}
+
+@section content_toolbar {
+    <abp-button button-type="Secondary" size="Small" text="Rollover"></abp-button>
+    <abp-button button-type="Primary" size="Small" text="Add Target"></abp-button>
+}
+
+<abp-card>
+    <abp-card-body>
+        Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías o de borradores de diseño para probar el diseño visual antes de insertar el texto final.
+    </abp-card-body>
+</abp-card>
